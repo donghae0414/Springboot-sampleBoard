@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Board-Write</title>
+</head>
+<body>
+
+<!--  HEADER -->
+<div th:insert="common/header.html" id="header"></div>
+
+	<form action="/post" method="post">
+		제목 : <input type="text" name="title"> <br>
+		작성자: <input type="text" name="writer"> <br>
+		<textarea name="content"></textarea> <br>
+		
+		<input type="submit" value="등록">
+	</form>
+	
+<!-- FOOTER -->
+<div th:insert="common/footer.html" id="footer"></div>
+
+</body>
+</html>

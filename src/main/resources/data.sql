@@ -1,0 +1,1 @@
+ALTER TABLE board convert to charset utf8;
