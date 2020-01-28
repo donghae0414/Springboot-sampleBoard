@@ -1,1 +1,1 @@
-ALTER TABLE board convert to charset utf8;
+INSERT INTO board (id, writer, title, content, created_date) VALUES (1, 'dongwuk', 'firstpost', 'it is first post', '2020-01-29');
