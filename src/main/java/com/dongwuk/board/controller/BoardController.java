@@ -22,15 +22,15 @@ public class BoardController {
 
 	private BoardService boardService;
 
-	@GetMapping("/")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-		List<BoardDto> boardDtoList = boardService.getBoardlist(pageNum);
-		Integer[] pageList = boardService.getPageList(pageNum);
-
-		model.addAttribute("boardList", boardDtoList);
-		model.addAttribute("pageList", pageList);
-		return "/board/list.html";
-	}
+//	@GetMapping("/")
+//	public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
+//		List<BoardDto> boardDtoList = boardService.getBoardlist(pageNum);
+//		Integer[] pageList = boardService.getPageList(pageNum);
+//
+//		model.addAttribute("boardList", boardDtoList);
+//		model.addAttribute("pageList", pageList);
+//		return "/board/list.html";
+//	}
 
 	/* 게시글 작성 */
 	@GetMapping("/post")
