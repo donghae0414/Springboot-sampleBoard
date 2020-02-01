@@ -1,1 +1,16 @@
-ALTER TABLE board convert to charset utf8;
+INSERT INTO board (id, writer, title, content, created_date) VALUES (1, 'dongwuk', 'firstpost', 'it is first post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (2, 'dongwuk', '2nd', '2nd post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (3, 'dongwuk', '3rd', '3rd post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (4, 'dongwuk', '4th', '4th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (5, 'dongwuk', '5th', '5th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (6, 'dongwuk', '6th', '6th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (7, 'dongwuk', '7th', '7th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (8, 'dongwuk', '8th', '8th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (9, 'dongwuk', '9th', '9th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (10, 'dongwuk', '10th', '10th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (11, 'dongwuk', '11th', '11th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (12, 'dongwuk', '12th', '12th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (13, 'dongwuk', '13th', '13th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (14, 'dongwuk', '14th', '14th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (15, 'dongwuk', '15th', '15th post', '2020-01-29');
+INSERT INTO board (id, writer, title, content, created_date) VALUES (16, 'dongwuk', '16th', '16th post', '2020-01-29');

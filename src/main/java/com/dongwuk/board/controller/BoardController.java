@@ -1,7 +1,12 @@
 package com.dongwuk.board.controller;
 
+import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,7 +54,16 @@ public class BoardController {
 	@GetMapping("/post/{no}")
 	public String detail(@PathVariable("no") Long no, Model model) {
 		BoardDto boardDTO = boardService.getPost(no);
-
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		
+		if(!(principal instanceof String)) {
+			UserDetails userDetails = (UserDetails)principal;
+			System.out.println(userDetails.getUsername());
+		}else {
+			System.out.println("NONE");
+		}
+		
 		model.addAttribute("boardDto", boardDTO);
 		return "/board/detail.html";
 	}
@@ -81,14 +95,14 @@ public class BoardController {
 	/* 게시글 검색 */
 	@GetMapping("/board/search")
 	public String search(@RequestParam(value = "keyword") String keyword, Model model) {
-		
+
 		List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
-		
+
 		model.addAttribute("boardList", boardDtoList);
 
 		return "/board/list.html";
 	}
-	
+
 //	/* 게시글 검색 페이징 */
 //	@GetMapping("/board/search")
 //	public String search(@RequestParam(value = "keyword") String keyword,
