@@ -73,7 +73,7 @@ public class MemberService implements UserDetailsService {
 		MemberDto memberDto = new MemberDto();
 		if(!(principal instanceof String)) {
 			UserDetails userDetails = (UserDetails)principal;
-//			System.out.println(userDetails.getUsername()); // email 나옴
+//			System.out.println("//" + userDetails.getUsername()); // email 나옴
 //			System.out.println(userDetails.getPassword()); // null로 나옴
 			
 			memberDto = loadUserByEmail(userDetails.getUsername());
