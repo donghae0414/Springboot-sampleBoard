@@ -19,6 +19,7 @@ import com.dongwuk.board.domain.Role;
 import com.dongwuk.board.domain.entity.MemberEntity;
 import com.dongwuk.board.domain.repository.MemberRepository;
 import com.dongwuk.board.dto.MemberDto;
+import com.dongwuk.board.userdetail.CustomMember;
 
 import lombok.AllArgsConstructor;
 
@@ -26,28 +27,34 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MemberService implements UserDetailsService {
 	private MemberRepository memberRepository;
-	
+
 	@Transactional
-	public Long joinUser(MemberDto memberDto) {
+	public MemberEntity joinUser(MemberDto memberDto) {
 		// password encode
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-		
-		return memberRepository.save(memberDto.toEntity()).getId();
+
+		return memberRepository.save(memberDto.toEntity());
 	}
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
 		Optional<MemberEntity> userEntityWrapper = memberRepository.findByEmail(userEmail);
 		MemberEntity userEntity = userEntityWrapper.get();
-		
+
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		
-		if(("donghae0414@naver.com").equals(userEmail)) {
+
+		if (("donghae0414@naver.com").equals(userEmail)) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
-		}else {
+		} else {
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 		}
+
+//		CustomMember userDetails = new CustomMember();
+//		userDetails.setId(userEntity.getId());
+//		userDetails.setEmail(userEntity.getEmail());
+//		userDetails.setPassword(userEntity.getPassword());
+//		return userDetails;
 		
 		return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
 	}

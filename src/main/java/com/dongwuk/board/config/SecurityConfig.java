@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.dongwuk.board.service.MemberService;
@@ -36,8 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		// page 권한
+		//	.antMatchers("/admin/**").hasAnyRole("ADMIN", "MEMBER")
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/user/myinfo").hasRole("MEMBER")
+			.antMatchers("/post").hasAnyRole("ADMIN", "MEMBER")
+			.antMatchers("/post/**").permitAll()
 			.antMatchers("/**").permitAll()
 		// login
 		.and()
@@ -54,7 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.invalidateHttpSession(true)
 		// 403 error handling
 		.and()
-			.exceptionHandling().accessDeniedPage("/user/denied");
+			.exceptionHandling().accessDeniedPage("/user/denied")
+		.and()
+			.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("!/console/**")) 
+		.and()
+			.headers()
+			.addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"))
+			.frameOptions().disable();
+		
 	}
 	
 	@Override

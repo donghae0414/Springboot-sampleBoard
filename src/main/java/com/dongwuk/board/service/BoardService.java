@@ -36,9 +36,7 @@ public class BoardService {
 		Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
 		BoardEntity boardEntity = boardEntityWrapper.get();
 
-		BoardDto boardDTO = BoardDto.builder().id(boardEntity.getId()).title(boardEntity.getTitle())
-				.content(boardEntity.getContent()).writer(boardEntity.getWriter())
-				.createdDate(boardEntity.getCreatedDate()).build();
+		BoardDto boardDTO = convertEntityToDto(boardEntity); 
 
 		return boardDTO;
 	}

@@ -25,12 +25,16 @@ public class MemberEntity {
 	private String email;
 	
 	@Column(length = 100, nullable = false)
+	private String name;
+	
+	@Column(length = 100, nullable = false)
 	private String password;
 	
 	@Builder
-	public MemberEntity(Long id, String email, String password) {
+	public MemberEntity(Long id, String email, String name, String password) {
 		this.id = id;
 		this.email = email;
+		this.name = name;
 		this.password = password;
 	}
 }
