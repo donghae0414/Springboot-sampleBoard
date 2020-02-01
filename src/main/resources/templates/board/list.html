@@ -10,6 +10,10 @@
 	<!--  HEADER -->
 	<div th:insert="common/header.html" id="header"></div>
     
+    <span sec:authorize="isAuthenticated()">로그인 하신 분 : </span>
+    <span sec:authorize="isAuthenticated()" th:text="${member.name}"></span>
+    <span sec:authorize="isAuthenticated()"><br></span>
+    
 	<a th:href="@{/post}">글쓰기</a>
 	
 	<table>

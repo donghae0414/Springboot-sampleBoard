@@ -1,9 +1,5 @@
 package com.dongwuk.board.controller;
 
-import java.security.Principal;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +42,7 @@ public class MemberController {
 	// 로그인 성공 결과
 	@GetMapping("/user/login/result")
 	public String dispLoginResult() {
+//		memberService.nowUser();
 //		return "/loginSuccess";
 		return "redirect:/";
 	}
@@ -64,11 +61,11 @@ public class MemberController {
 	
 	// user info
 	@GetMapping("/user/info")
-	public String dispMyInfo(Model model, Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	public String dispMyInfo(Model model) {
+		MemberDto memberDto = memberService.getNowUser();
 		
-//		System.out.println(memberService.loadUserByUsername(userDetails.getUsername()).getName());
-//		System.out.println(memberService.loadUserByUsername(userDetails.getUsername()).getEmail());
+		model.addAttribute("member", memberDto);
+		
 		return "/myinfo";
 	}
 	

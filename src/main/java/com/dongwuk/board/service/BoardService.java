@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.dongwuk.board.domain.entity.BoardEntity;
 import com.dongwuk.board.domain.repository.BoardRepository;
 import com.dongwuk.board.dto.BoardDto;
+import com.dongwuk.board.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
 
@@ -27,15 +28,17 @@ public class BoardService {
 	private static final int PAGE_POST_COUNT = 4;
 
 	@Transactional
-	public Long savePost(BoardDto boardDto) {
-		return boardRepository.save(boardDto.toEntity()).getId();
+	public Long savePost(BoardDto boardDto, MemberDto memberDto) {
+		BoardEntity boardEntity = boardDto.toEntity();
+		boardEntity.setMemberEntity(memberDto.toEntity());
+		return boardRepository.save(boardEntity).getId();
 	}
 
 	@Transactional
 	public BoardDto getPost(Long id) {
 		Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
 		BoardEntity boardEntity = boardEntityWrapper.get();
-
+		
 		BoardDto boardDTO = convertEntityToDto(boardEntity); 
 
 		return boardDTO;

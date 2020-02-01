@@ -1,10 +1,15 @@
 package com.dongwuk.board.domain.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -30,11 +35,15 @@ public class MemberEntity {
 	@Column(length = 100, nullable = false)
 	private String password;
 	
+	@OneToMany(mappedBy = "memberEntity")
+	private Collection<BoardEntity> boardEntities;
+	
 	@Builder
-	public MemberEntity(Long id, String email, String name, String password) {
+	public MemberEntity(Long id, String email, String name, String password, ArrayList<BoardEntity> boardEntities) {
 		this.id = id;
 		this.email = email;
 		this.name = name;
 		this.password = password;
+		this.boardEntities = boardEntities;
 	}
 }

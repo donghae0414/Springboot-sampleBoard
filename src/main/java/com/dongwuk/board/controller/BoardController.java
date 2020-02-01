@@ -1,10 +1,7 @@
 package com.dongwuk.board.controller;
 
-import java.security.Principal;
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -17,7 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dongwuk.board.dto.BoardDto;
+import com.dongwuk.board.dto.MemberDto;
 import com.dongwuk.board.service.BoardService;
+import com.dongwuk.board.service.MemberService;
 
 import lombok.AllArgsConstructor;
 
@@ -26,12 +25,15 @@ import lombok.AllArgsConstructor;
 public class BoardController {
 
 	private BoardService boardService;
+	private MemberService memberService;
 
 	@GetMapping("/")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
 		List<BoardDto> boardDtoList = boardService.getBoardlist(pageNum);
 		Integer[] pageList = boardService.getPageList(pageNum);
+		MemberDto memberDto = memberService.getNowUser();
 
+		model.addAttribute("member", memberDto);
 		model.addAttribute("boardList", boardDtoList);
 		model.addAttribute("pageList", pageList);
 		return "/board/list.html";
@@ -45,7 +47,9 @@ public class BoardController {
 
 	@PostMapping("/post")
 	public String write(BoardDto boardDto) {
-		boardService.savePost(boardDto);
+		MemberDto memberDto = memberService.getNowUser();
+		boardDto.setWriter(memberDto.getName());
+		boardService.savePost(boardDto, memberDto);
 
 		return "redirect:/";
 	}
@@ -54,16 +58,9 @@ public class BoardController {
 	@GetMapping("/post/{no}")
 	public String detail(@PathVariable("no") Long no, Model model) {
 		BoardDto boardDTO = boardService.getPost(no);
-		
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		
-		if(!(principal instanceof String)) {
-			UserDetails userDetails = (UserDetails)principal;
-			System.out.println(userDetails.getUsername());
-		}else {
-			System.out.println("NONE");
-		}
-		
+		MemberDto memberDto = memberService.getNowUser(); 
+
+		model.addAttribute("member", memberDto);
 		model.addAttribute("boardDto", boardDTO);
 		return "/board/detail.html";
 	}
@@ -78,9 +75,11 @@ public class BoardController {
 	}
 
 	@PutMapping("/post/edit/{no}")
-	public String update(BoardDto boardDTO) {
-		boardService.savePost(boardDTO);
-
+	public String update(BoardDto boardDto) {
+		MemberDto memberDto = memberService.getNowUser();
+		boardDto.setWriter(memberDto.getName());
+		boardService.savePost(boardDto, memberDto);
+		
 		return "redirect:/post/{no}";
 	}
 
@@ -97,6 +96,9 @@ public class BoardController {
 	public String search(@RequestParam(value = "keyword") String keyword, Model model) {
 
 		List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
+		MemberDto memberDto = memberService.getNowUser();
+
+		model.addAttribute("member", memberDto);
 
 		model.addAttribute("boardList", boardDtoList);
 
