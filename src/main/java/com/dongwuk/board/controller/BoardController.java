@@ -2,8 +2,6 @@ package com.dongwuk.board.controller;
 
 import java.util.List;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -97,11 +95,11 @@ public class BoardController {
 
 		List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
 		MemberDto memberDto = memberService.getNowUser();
-
+		
 		model.addAttribute("member", memberDto);
 
 		model.addAttribute("boardList", boardDtoList);
-
+		
 		return "/board/list.html";
 	}
 

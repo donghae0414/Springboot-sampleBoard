@@ -38,8 +38,8 @@ public class BoardService {
 	public BoardDto getPost(Long id) {
 		Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
 		BoardEntity boardEntity = boardEntityWrapper.get();
-		
-		BoardDto boardDTO = convertEntityToDto(boardEntity); 
+
+		BoardDto boardDTO = convertEntityToDto(boardEntity);
 
 		return boardDTO;
 	}
@@ -59,9 +59,22 @@ public class BoardService {
 			boardDtoList.add(this.convertEntityToDto(boardEntity));
 		}
 
+//		MemberEntity memberEntity = memberRepository.findByName(keyword);
+//		if (memberEntity != null) {
+//			List<BoardEntity> boards = boardRepository.findByMember(memberEntity);
+//			for (BoardEntity b : boards) {
+//				boardDtoList.add(this.convertEntityToDto(b));
+//			}
+//		}
+		
+		List<BoardEntity> boards = boardRepository.findByUserName(keyword);
+		for (BoardEntity b : boards) {
+			boardDtoList.add(this.convertEntityToDto(b));
+		}
+		
 		return boardDtoList;
 	}
-	
+
 	@Transactional
 	public List<BoardDto> getBoardlist(Integer pageNum) {
 //		List<BoardEntity> boardEntities = boardRepository.findAll();
@@ -118,8 +131,6 @@ public class BoardService {
 				.createdDate(boardEntity.getCreatedDate()).build();
 	}
 
-
-	
 	/* 게시글 검색 페이징 */
 //	@Transactional
 //	public List<BoardDto> searchPosts(String keyword, Integer pageNum) {

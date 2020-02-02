@@ -2,6 +2,7 @@ package com.dongwuk.board.service;
 
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dongwuk.board.domain.Role;
+import com.dongwuk.board.domain.entity.BoardEntity;
 import com.dongwuk.board.domain.entity.MemberEntity;
 import com.dongwuk.board.domain.repository.MemberRepository;
 import com.dongwuk.board.dto.MemberDto;
@@ -33,7 +35,7 @@ public class MemberService implements UserDetailsService {
 		// password encode
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-
+		
 		return memberRepository.save(memberDto.toEntity());
 	}
 	
@@ -63,6 +65,9 @@ public class MemberService implements UserDetailsService {
 	public MemberDto loadUserByEmail(String email) throws UsernameNotFoundException {
 		Optional<MemberEntity> userEntityWrapper = memberRepository.findByEmail(email);
 		MemberEntity memberEntity = userEntityWrapper.get();
+		// 알아서 글들 다 매핑되어 들어가있음을 확인
+//		Iterator<BoardEntity> list = memberEntity.getBoardEntities().iterator();
+//		System.out.println(list.next().getContent());
 		MemberDto memberDto = convertEntityToDto(memberEntity); 
 		
 		return memberDto;
@@ -80,10 +85,10 @@ public class MemberService implements UserDetailsService {
 			//System.out.println(memberDto.toString());
 			return memberDto;
 		}else {
-			System.out.println("로그인 X");
-			memberDto.setId(null);
-			memberDto.setEmail(null);
-			memberDto.setPassword(null);
+//			System.out.println("로그인 X");
+//			memberDto.setId(null);
+//			memberDto.setEmail(null);
+//			memberDto.setPassword(null);
 			return null;
 		}
 	}

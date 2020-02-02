@@ -47,4 +47,5 @@ public class BoardEntity extends TimeEntity {
 		this.content = content;
 		this.memberEntity = memberEntity;
 	}
+	
 }

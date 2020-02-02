@@ -5,11 +5,12 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -35,7 +36,7 @@ public class MemberEntity {
 	@Column(length = 100, nullable = false)
 	private String password;
 	
-	@OneToMany(mappedBy = "memberEntity")
+	@OneToMany(mappedBy = "memberEntity", fetch = FetchType.LAZY)
 	private Collection<BoardEntity> boardEntities;
 	
 	@Builder
@@ -45,5 +46,11 @@ public class MemberEntity {
 		this.name = name;
 		this.password = password;
 		this.boardEntities = boardEntities;
+	}
+	
+	@PrePersist
+	public void init() {
+		boardEntities = new ArrayList<BoardEntity>();	
+				
 	}
 }
